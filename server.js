@@ -26,11 +26,23 @@ passport.deserializeUser(function(id, cb) {
 
 passport.use(
   new LocalStrategy(function(username, password, done) {
-    // I'M EXPECTING THIS CONSOLE.LOG TO BE HIT BASEED ON THE SERVER.POST BELOW AND IT IS NOT
     console.log(
       `LocalStrategy Function: username:${username} password:${password}`
     );
-    return done(username);
+
+    if (username === password) {
+      return done(
+        null,
+        { username: username },
+        {
+          message: "where does this message come out?"
+        }
+      );
+    }
+
+    return done(null, false, {
+      message: "failure, nuclear meltdown"
+    });
   })
 );
 
@@ -40,7 +52,6 @@ app
     const server = express();
 
     server.use(passport.initialize());
-
     server.use(
       bodyParser.urlencoded({
         extended: true
@@ -55,13 +66,14 @@ app
     server.post(
       "/login",
       passport.authenticate("local", {
-        failureRedirect: "/login"
+        failureRedirect: "/error",
+        successRedirect: "/success"
       }),
       (req, res) => {
         console.log(
-          `server.post login   req.body.username:${
-            req.body.username
-          } password:${req.body.password}`
+          `success: server.post login   req.user.username:${
+            req.user.username
+          }  req.authInfo.message:${req.authInfo.message}`
         );
       }
     );
