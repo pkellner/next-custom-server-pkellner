@@ -14,7 +14,7 @@ app
     const server = express();
 
     server.get("/login", (req, res) => {
-      console.log("in server.js login called");
+      console.log("in server.js login called...");
       return app.render(req, res, "/login");
     });
 
