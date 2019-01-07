@@ -63,20 +63,35 @@ app
       return app.render(req, res, "/login");
     });
 
-    server.post(
-      "/login",
-      passport.authenticate("local", {
-        failureRedirect: "/error",
-        successRedirect: "/success"
-      }),
-      (req, res) => {
-        console.log(
-          `success: server.post login   req.user.username:${
-            req.user.username
-          }  req.authInfo.message:${req.authInfo.message}`
-        );
-      }
-    );
+      server.post(
+          "/login",
+          passport.authenticate("local", (err,user,info) => {
+              // FOR SOME REASON, ERR COMES IN UNDEFINED EVEN WHEN THERE IS AN ERROR. USER IS EMPTY AND INFO.MESSAGE IS REALLY ERROR
+              console.log(`info:${info}`);
+          }),
+          (req, res) => {
+              console.log(
+                  `success: server.post login   req.user.username:${
+                      req.user.username
+                      }  req.authInfo.message:${req.authInfo.message}`
+              );
+          }
+      );
+
+    // server.post(
+    //   "/login",
+    //   passport.authenticate("local", {
+    //     failureRedirect: "/error",
+    //     successRedirect: "/success"
+    //   }),
+    //   (req, res) => {
+    //     console.log(
+    //       `success: server.post login   req.user.username:${
+    //         req.user.username
+    //       }  req.authInfo.message:${req.authInfo.message}`
+    //     );
+    //   }
+    // );
 
     server.get("*", (req, res) => {
       return handle(req, res);
