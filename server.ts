@@ -29,7 +29,7 @@ passport.deserializeUser(function(id, cb) {
 });
 
 passport.use(
-  new LocalStrategy(function(username, password, done) {
+  new LocalStrategy(function(username : string, password, done) {
     console.log(
       `LocalStrategy Function: username:${username} password:${password}`
     );

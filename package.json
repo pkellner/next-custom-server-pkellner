@@ -2,9 +2,9 @@
   "name": "custom-server",
   "version": "1.0.0",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node server.ts",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "NODE_ENV=production node server.ts"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
