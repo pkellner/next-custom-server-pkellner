@@ -1,6 +1,6 @@
 import React from "react";
 
-function Login(props) {
+function Login(props : any) {
   let z = 100;
   let x = 11111;
   if (z) {
